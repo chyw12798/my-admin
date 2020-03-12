@@ -1,0 +1,11 @@
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\dao\MasAdminDao.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\securityConfig\MybatisConfig.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\securityConfig\GlobalCorsConfig.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\securityConfig\Swagger2Config.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\AdminSystemApplication.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\service\impl\MasAdminServiceImpl.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\controller\MasAdminController.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\dto\AdminDetails.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\service\MasAdminService.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\dto\MasAdminParam.java
+D:\知识\Test\my-admin\admin-system\src\main\java\com\myproject\admin\securityConfig\MallSecurityConfig.java

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myproject.admin.dao.CmsCourseDao">
+
+
+
+    <select id="list" resultType="com.myproject.admin.model.CmsCourse">
+
+        select
+            a.*
+        from cms_course a
+        inner join mas_admin b on a.teacher_id = b.id
+        inner join cms_course_category c on a.course_category_id = c.id
+        <where>
+            <if test="categoryIdList != null">
+                AND a.courseCategoryId IN #{categoryIdList}
+            </if>
+            <if test="teacherName != null and teacherName !=''">
+                AND b.nick_name LIKE concat(#{teacherName},"%")
+            </if>
+            <if test="courseName != null and courseName != ''">
+                AND a.name LIKE concat(#{courseName},"%")
+            </if>
+            <if test="deleteStatus != null">
+                AND a.delete_status = #{deleteStatus}
+            </if>
+            <if test="finishStatus != null">
+                AND a.finish_status = #{finishStatus}
+            </if>
+            <if test="publishStatus != null">
+                AND a.publish_status = #{publishStatus}
+            </if>
+            <if test="verifyStatus != null" >
+                AND a.verify_status = #{verifyStatus}
+            </if>
+
+        </where>
+
+    </select>
+    <select id="getUpdateInfo" resultType="com.myproject.admin.dto.CmsCourseResult">
+
+        select
+
+        from cms_course
+        where id = #{id}
+
+
+
+    </select>
+    <select id="cateLevelTwoSelectChild" resultType="com.myproject.admin.model.CmsCourseCategory">
+
+        select
+            *
+        from cms_course_category
+        where pid = #{cateId}
+
+    </select>
+
+    <select id="cateLevelThreeSelectChild" resultType="com.myproject.admin.model.CmsCourseCategory">
+        select *
+        from cms_course_category
+        where pid=(
+            select
+                id
+            from cms_course_category
+            where pid=#{cateId}
+        )
+    </select>
+
+
+    <insert id="bacthUpdateVerifyCourse">
+        insert into cms_course_verify_record(course_id,verify_status,operate_man,operate_time) values
+        <foreach collection="list" separator="," item="item" index="index">
+            item.courseId,item.verifyStatus,item.operateMan,item.operateTime
+        </foreach>
+
+    </insert>
+</mapper>

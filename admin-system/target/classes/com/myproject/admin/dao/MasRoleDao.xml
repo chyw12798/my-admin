@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myproject.admin.dao.MasRoleDao">
+
+
+    <select id="getRolePermissionList" resultType="com.myproject.admin.model.MasPermission">
+        select
+            c.*
+        from mas_role_permission_relation a
+        inner join mas_role b on a.role_id=b.id
+        inner join mas_permission c on a.permission_id=c.id
+        where a.id=#{roleId}
+    </select>
+    <select id="getAdminRole" resultMap="com.myproject.admin.mapper.MasRoleMapper.BaseResultMap">
+        select
+            c.*
+        from mas_admin_role_relation a
+        inner join mas_admin b on a.admin_id = b.id
+        inner join mas_role c on a.role_id = c.id
+        where b.id = #{adminId}
+
+
+    </select>
+
+
+</mapper>

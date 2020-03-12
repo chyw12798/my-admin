@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myproject.admin.dao.MasAdminDao">
+
+
+    <select id="getAdminPermissionList" resultType="com.myproject.admin.model.MasPermission">
+         select
+            c.id as id,
+            c.permission_name as permissionName,
+            c.pid as pwd,
+            c.value as value,
+            c.path as path,
+            c.note as note,
+            c.status as status,
+            c.create_time as createTime,
+            c.sort as sort
+        from mas_admin_permission_relation a
+        inner join mas_admin b on a.admin_id=b.id
+        inner join mas_permission c on a.permission_id = c.id
+        where b.id = #{adminId}
+
+
+    </select>
+    <select id="getAdminRole" resultMap="com.myproject.admin.mapper.MasRoleMapper.BaseResultMap">
+        select
+            c.*
+        from mas_admin_role_relation a
+        inner join mas_admin b on a.admin_id = b.id
+        inner join mas_role c on a.role_id = c.id
+        where b.id = #{adminId}
+
+    </select>
+</mapper>

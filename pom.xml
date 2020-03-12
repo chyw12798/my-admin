@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.myproject.admin</groupId>
+    <artifactId>my-admin</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>admin-system</module>
+        <module>admin-mbg</module>
+        <module>admin-common</module>
+    </modules>
+
+    <!--
+          1、指定自己module的名字 <name>  (父module可不用)
+          2、指向父module名字  <parent> ,这里就暂时把这里最外层作为父module
+                2.1、如果自己是父module, 将其他所有工程module都导入进来, 自己的父module就是spingBootStarterParent
+          3、导入依赖 <dependencies>:
+                3.1、如果依赖过多, 可以使用<properties>来统一管理依赖版本version
+                3.2、导入其他需要用到的module依赖, common、mgb(这里还是需要加一些其他的包)
+                    3.2.1 springboot:
+                        -starter-web、-starter-actuator、-starter-aop、-starter-test
+                    3.2.2 github的pageHelper插件
+                    3.2.3 阿里的数据源druid
+                    note: 这里的dependencies都会被子类直接继承(子类无需再声明)
+                    answer: 这里的依赖都未指定版本version
+           4、导入依赖 <dependencyManagement>:
+                4.1、与dependencies的区别: denpendencies依赖会被子类继承, 无论子module是否导入其中依赖
+                            dependencyManagement依赖只是声明依赖，并不实现引入，因此子module需显示的声明
+                            需要用的依赖。不声明就不会从父module继承下来，只有子module写了依赖，没有写version
+                            才会从父module继承依赖，且version和scope都读取父module的依赖，子类指定version就
+                            直接用子module的依赖
+                4.2、好处：统一管理项目的版本号，确保应用的各个项目的依赖和版本一致，才能保证测试的和发布的是相同的成果，
+                          因此，在顶层pom中定义共同的依赖关系。同时可以避免在每个使用的子项目中都声明一个版本号，这样想
+                          升级或者切换到另一个版本时，只需要在父类容器里更新，不需要任何一个子项目的修改；如果某个子项目
+                          需要另外一个版本号时，只需要在dependencies中声明一个版本号即可。子类就会使用子类声明的版本号，
+                          不继承于父类版本号。
+                4、3 导入其他子module需要用到的module依赖, common、mgb这些通用的并控制版本
+                     以及其他的子类需要使用的依赖:pagehelper、druid、hutool、swagger2、mybatis、generator、mysql、SpringData
+                                               JWT、阿里云OSS、logback、minio
+                     将依赖统一管理
+          -->
+
+
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.7.RELEASE</version>
+        <relativePath/><!-- lookup parent from repository -->
+    </parent>
+
+
+    <!-- 版本控制 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <skipTests>true</skipTests>
+        <docker.host>http://192.168.3.101:2375</docker.host>
+        <docker.maven.plugin.version>1.1.0</docker.maven.plugin.version>
+        <pagehelper-starter.version>1.2.10</pagehelper-starter.version>
+        <pagehelper.version>5.1.8</pagehelper.version>
+        <druid.version>1.1.10</druid.version>
+        <hutool.version>4.5.7</hutool.version>
+        <swagger2.version>2.7.0</swagger2.version>
+        <mybatis-generator.version>1.3.7</mybatis-generator.version>
+        <mybatis.version>3.4.6</mybatis.version>
+        <mysql-connector.version>8.0.15</mysql-connector.version>
+        <spring-data-commons.version>2.1.5.RELEASE</spring-data-commons.version>
+        <jjwt.version>0.9.0</jjwt.version>
+        <aliyun-oss.version>2.5.0</aliyun-oss.version>
+        <logstash-logback.version>4.8</logstash-logback.version>
+        <minio.version>3.0.10</minio.version>
+        <admin-mbg.version>1.0-SNAPSHOT</admin-mbg.version>
+        <admin-common.version>1.0-SNAPSHOT</admin-common.version>
+        <admin-system.version>1.0-SNAPSHOT</admin-system.version>
+        <!-- <mall-common.version>1.0-SNAPSHOT</mall-common.version>-->
+        <!-- <mall-mbg.version>1.0-SNAPSHOT</mall-mbg.version>-->
+        <!-- <mall-security.version>1.0-SNAPSHOT</mall-security.version>-->
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!--            &lt;!&ndash;mall通用模块&ndash;&gt;-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.macro.mall</groupId>-->
+            <!--                <artifactId>mall-common</artifactId>-->
+            <!--                <version>${mall-common.version}</version>-->
+            <!--            </dependency>-->
+            <!--            &lt;!&ndash;mall中MBG生成模块&ndash;&gt;-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.macro.mall</groupId>-->
+            <!--                <artifactId>mall-mbg</artifactId>-->
+            <!--                <version>${mall-mbg.version}</version>-->
+            <!--            </dependency>-->
+            <!--            &lt;!&ndash;mall安全模块&ndash;&gt;-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.macro.mall</groupId>-->
+            <!--                <artifactId>mall-security</artifactId>-->
+            <!--                <version>${mall-security.version}</version>-->
+            <!--            </dependency>-->
+            <dependency>
+                <groupId>com.myproject.admin</groupId>
+                <artifactId>admin-system</artifactId>
+                <version>${admin-system.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.myproject.admin</groupId>
+                <artifactId>admin-mbg</artifactId>
+                <version>${admin-mbg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.myproject.admin</groupId>
+                <artifactId>admin-common</artifactId>
+                <version>${admin-common.version}</version>
+            </dependency>
+            <!--MyBatis分页插件starter-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper-starter.version}</version>
+            </dependency>
+            <!--MyBatis分页插件-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+            <!--集成druid连接池-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!--Hutool Java工具包-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--Swagger-UI API文档生产工具-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+            <!-- MyBatis 生成器 -->
+            <dependency>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-core</artifactId>
+                <version>${mybatis-generator.version}</version>
+            </dependency>
+            <!-- MyBatis-->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!--Mysql数据库驱动-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+            <!--SpringData工具包-->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring-data-commons.version}</version>
+            </dependency>
+            <!--JWT(Json Web Token)登录支持-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!-- 阿里云OSS -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-oss.version}</version>
+            </dependency>
+            <!--集成logstash-->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback.version}</version>
+            </dependency>
+            <!--MinIO JAVA SDK-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>

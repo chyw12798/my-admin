@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myproject.admin.mapper.UmsUserMapper">
+  <resultMap id="BaseResultMap" type="com.myproject.admin.model.UmsUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birth_date" jdbcType="INTEGER" property="birthDate" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="ID_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="monther_info" jdbcType="VARCHAR" property="montherInfo" />
+    <result column="father_info" jdbcType="VARCHAR" property="fatherInfo" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="school_id" jdbcType="BIGINT" property="schoolId" />
+    <result column="grade_id" jdbcType="BIGINT" property="gradeId" />
+    <result column="class_id" jdbcType="BIGINT" property="classId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_name, nick_name, password, real_name, number, icon, sex, birth_date, address, 
+    school, grade, ID_number, monther_info, father_info, register_time, status, school_id, 
+    grade_id, class_id
+  </sql>
+  <select id="selectByExample" parameterType="com.myproject.admin.model.UmsUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ums_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ums_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ums_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myproject.admin.model.UmsUserExample">
+    delete from ums_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myproject.admin.model.UmsUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ums_user (user_name, nick_name, password, 
+      real_name, number, icon, 
+      sex, birth_date, address, 
+      school, grade, ID_number, 
+      monther_info, father_info, register_time, 
+      status, school_id, grade_id, 
+      class_id)
+    values (#{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{realName,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{birthDate,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{school,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
+      #{montherInfo,jdbcType=VARCHAR}, #{fatherInfo,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{schoolId,jdbcType=BIGINT}, #{gradeId,jdbcType=BIGINT}, 
+      #{classId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myproject.admin.model.UmsUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ums_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthDate != null">
+        birth_date,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="idNumber != null">
+        ID_number,
+      </if>
+      <if test="montherInfo != null">
+        monther_info,
+      </if>
+      <if test="fatherInfo != null">
+        father_info,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="schoolId != null">
+        school_id,
+      </if>
+      <if test="gradeId != null">
+        grade_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="montherInfo != null">
+        #{montherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherInfo != null">
+        #{fatherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=BIGINT},
+      </if>
+      <if test="gradeId != null">
+        #{gradeId,jdbcType=BIGINT},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myproject.admin.model.UmsUserExample" resultType="java.lang.Long">
+    select count(*) from ums_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ums_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null">
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realName != null">
+        real_name = #{record.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.number != null">
+        number = #{record.number,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null">
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthDate != null">
+        birth_date = #{record.birthDate,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null">
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idNumber != null">
+        ID_number = #{record.idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.montherInfo != null">
+        monther_info = #{record.montherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fatherInfo != null">
+        father_info = #{record.fatherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerTime != null">
+        register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.schoolId != null">
+        school_id = #{record.schoolId,jdbcType=BIGINT},
+      </if>
+      <if test="record.gradeId != null">
+        grade_id = #{record.gradeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.classId != null">
+        class_id = #{record.classId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ums_user
+    set id = #{record.id,jdbcType=BIGINT},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      real_name = #{record.realName,jdbcType=VARCHAR},
+      number = #{record.number,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      birth_date = #{record.birthDate,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      ID_number = #{record.idNumber,jdbcType=VARCHAR},
+      monther_info = #{record.montherInfo,jdbcType=VARCHAR},
+      father_info = #{record.fatherInfo,jdbcType=VARCHAR},
+      register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=TINYINT},
+      school_id = #{record.schoolId,jdbcType=BIGINT},
+      grade_id = #{record.gradeId,jdbcType=BIGINT},
+      class_id = #{record.classId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myproject.admin.model.UmsUser">
+    update ums_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        birth_date = #{birthDate,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        ID_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="montherInfo != null">
+        monther_info = #{montherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherInfo != null">
+        father_info = #{fatherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=BIGINT},
+      </if>
+      <if test="gradeId != null">
+        grade_id = #{gradeId,jdbcType=BIGINT},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myproject.admin.model.UmsUser">
+    update ums_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birth_date = #{birthDate,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      ID_number = #{idNumber,jdbcType=VARCHAR},
+      monther_info = #{montherInfo,jdbcType=VARCHAR},
+      father_info = #{fatherInfo,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      school_id = #{schoolId,jdbcType=BIGINT},
+      grade_id = #{gradeId,jdbcType=BIGINT},
+      class_id = #{classId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
