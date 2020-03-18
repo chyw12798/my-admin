@@ -1,10 +1,12 @@
 # my-admin
 # 微课堂
 
-· SpringBoot + Mybatis + SpringSecurity + Redis + Mysql + Swagger
+$ SpringBoot + Mybatis + SpringSecurity + Redis + Mysql + Swagger
 
 · 1、包含了登录的认证与鉴权(SpringSecurity+JWT)
+
 · 2、后台管理员、角色、权限的管理(按钮级别的控制开发中)
+
 · 3、课程、作业关联与操作
 
 # 开发中：
