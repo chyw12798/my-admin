@@ -2,6 +2,7 @@ package com.myproject.admin.controller;
 
 import com.myproject.admin.api.CommonPage;
 import com.myproject.admin.api.CommonResult;
+import com.myproject.admin.dto.CmsCourseHomeworkParam;
 import com.myproject.admin.dto.CmsCourseResult;
 import com.myproject.admin.model.CmsCourse;
 import com.myproject.admin.service.CmsCourseService;
@@ -60,7 +61,8 @@ public class CmsCourseController {
     @ApiOperation(value = "新建课程")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult add(@RequestBody CmsCourse course) {
+    public CommonResult add(@RequestHeader(name = "Authorization")String myHeader,
+                            @RequestBody CmsCourse course) {
         int count = courseService.add(course);
         if (count > 0) {
             return CommonResult.success("新建课程成功");
@@ -71,7 +73,8 @@ public class CmsCourseController {
     @ApiOperation(value = "批量审核课程(通过或不通过)")
     @RequestMapping(value = "/updateVerifyCourse", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult updateVerifyCourse(@RequestParam("cmsCourseIds") List<Long> cmsCourseIds,
+    public CommonResult updateVerifyCourse(@RequestHeader(name = "Authorization")String myHeader,
+                                           @RequestParam("cmsCourseIds") List<Long> cmsCourseIds,
                                            @RequestParam("verifyStatus") Integer verifyStatus,
                                            @RequestParam("detail") String detail) {
         int count = courseService.updateVerifyCourse(cmsCourseIds,verifyStatus,detail);
@@ -81,7 +84,8 @@ public class CmsCourseController {
     @ApiOperation(value = "批量上下架课程")
     @RequestMapping(value = "/bathPublishCourse", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult bathPublishCourse(@RequestParam("cmsCourseIds") List<Long> cmsCourseId,
+    public CommonResult bathPublishCourse(@RequestHeader(name = "Authorization")String myHeader,
+                                          @RequestParam("cmsCourseIds") List<Long> cmsCourseId,
                                           @RequestParam("publishStatus")Integer publishStatus) {
 
         int count = courseService.bathPublishCourse(cmsCourseId,publishStatus);
@@ -95,9 +99,23 @@ public class CmsCourseController {
     @ApiOperation(value = "批量删除课程")
     @RequestMapping(value = "/bathDeleteCourse", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult bathDeleteCourse(@RequestParam("cmsCourseIds") List<Long> cmsCourseId) {
+    public CommonResult bathDeleteCourse(@RequestHeader(name = "Authorization")String myHeader,
+                                         @RequestParam("cmsCourseIds") List<Long> cmsCourseId) {
 
         int count = courseService.bathDeleteCourse(cmsCourseId);
+        if (count > 0 ) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "给指定课程批量添加作业")
+    @RequestMapping(value = "/addHomework", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult addHomework(@RequestHeader(name = "Authorization")String myHeader,
+                                    @RequestBody CmsCourseHomeworkParam courseHomeworkParam) {
+
+        int count = courseService.addHomework(courseHomeworkParam);
         if (count > 0 ) {
             return CommonResult.success(count);
         }

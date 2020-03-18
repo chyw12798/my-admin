@@ -1,6 +1,7 @@
 package com.myproject.admin.securityConfig;
 
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -12,6 +13,7 @@ public class GlobalCorsConfig {
     /**
      *
      */
+    @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         // 允许所有域名进行跨域调用

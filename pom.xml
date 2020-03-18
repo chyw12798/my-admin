@@ -12,6 +12,7 @@
         <module>admin-system</module>
         <module>admin-mbg</module>
         <module>admin-common</module>
+        <module>admin-user</module>
     </modules>
 
     <!--

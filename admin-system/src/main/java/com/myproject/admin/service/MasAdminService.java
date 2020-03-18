@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 public interface MasAdminService {
 
@@ -24,7 +26,7 @@ public interface MasAdminService {
 
     String login(MasAdminParam adminParam);
 
-    CommonResult register(String userName, String password);
+    CommonResult register(MasAdmin masAdmin);
 
 
     List<MasAdmin> list(String userName,Integer pageNum,Integer pageSize);
@@ -48,4 +50,6 @@ public interface MasAdminService {
 
     @Transactional
     CommonResult roleUpdate(UpdateAdminRoleParam updateAdminRoleParam);
+
+    Map<String, Object> info(Principal principal);
 }

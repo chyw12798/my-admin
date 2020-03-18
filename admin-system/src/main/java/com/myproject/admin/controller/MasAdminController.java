@@ -9,6 +9,7 @@ import com.myproject.admin.service.MasAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,8 @@ public class MasAdminController {
 
     @Autowired
     private MasAdminService adminService;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
 
     // 写到这里就要在admin-system里添加comm、mbg包了
@@ -39,8 +42,8 @@ public class MasAdminController {
         String token = adminService.login(adminParam);
         Map<String ,String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
-        tokenMap.put("header", "hearder");
-        return CommonResult.success(token);
+        tokenMap.put("tokenHead", tokenHead);
+        return CommonResult.success(tokenMap);
     }
 
     @ApiOperation(value = "获取验证码")
@@ -65,8 +68,8 @@ public class MasAdminController {
     @ApiOperation(value = "后台用注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult register(@RequestBody MasAdminParam adminParam) {
-        return adminService.register(adminParam.getUserName(),adminParam.getPassword());
+    public CommonResult register(@RequestBody MasAdmin masAdmin) {
+        return adminService.register(masAdmin);
     }
 
 
@@ -76,7 +79,7 @@ public class MasAdminController {
     public CommonResult info(@RequestHeader(name = "Authorization")String myHeader,
                              Principal principal) {
         // 登录的时候返回的用户信息
-        return null;
+        return CommonResult.success(adminService.info(principal));
     }
 
     @ApiOperation(value = "登出功能")
@@ -135,7 +138,7 @@ public class MasAdminController {
     }
 
     @ApiOperation("给用户分配角色(+权限)")
-    @RequestMapping(value = "/role/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/roleUpdate", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult roleUpdate(@RequestHeader(name = "Authorization")String myHeader,
                                          @RequestBody UpdateAdminRoleParam updateAdminRoleParam) {

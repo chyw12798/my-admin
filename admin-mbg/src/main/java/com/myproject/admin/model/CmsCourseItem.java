@@ -26,7 +26,7 @@ public class CmsCourseItem implements Serializable {
     private String itemSn;
 
     @ApiModelProperty(value = "课程条目主讲老师")
-    private Integer teacherId;
+    private Long teacherId;
 
     @ApiModelProperty(value = "直播时间")
     private Date recodeTime;
@@ -89,11 +89,11 @@ public class CmsCourseItem implements Serializable {
         this.itemSn = itemSn;
     }
 
-    public Integer getTeacherId() {
+    public Long getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(Integer teacherId) {
+    public void setTeacherId(Long teacherId) {
         this.teacherId = teacherId;
     }
 

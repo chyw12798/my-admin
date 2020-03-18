@@ -3,8 +3,11 @@ package com.myproject.admin.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.myproject.admin.api.CommonResult;
 import com.myproject.admin.dao.CmsCourseDao;
+import com.myproject.admin.dao.CmsCourseHomeworkRelationDao;
+import com.myproject.admin.dto.CmsCourseHomeworkParam;
 import com.myproject.admin.dto.CmsCourseResult;
 import com.myproject.admin.mapper.CmsCourseCategoryMapper;
+import com.myproject.admin.mapper.CmsCourseHomeworkRelationMapper;
 import com.myproject.admin.mapper.CmsCourseMapper;
 import com.myproject.admin.model.*;
 import com.myproject.admin.service.CmsCourseService;
@@ -40,6 +43,9 @@ public class CmsCourseServiceImpl implements CmsCourseService {
 
     @Autowired
     private CmsCourseMapper cmsCourseMapper;
+
+    @Autowired
+    private CmsCourseHomeworkRelationDao cmsCourseHomeworkRelationDao;
 
     // 课程分类
     private static final int COURSE_CATEGORY_LEVEL_ONE = 1;
@@ -102,7 +108,7 @@ public class CmsCourseServiceImpl implements CmsCourseService {
 
     @Override
     public int add(CmsCourse course) {
-        if(!courseCategoryMapper.selectByPrimaryKey(course.getCourseCategoryId())
+        if(course.getCourseCategoryId() == null || !courseCategoryMapper.selectByPrimaryKey(course.getCourseCategoryId())
                 .getLevel().equals(COURSE_CATEGORY_LEVEL_THREE)){
             throw new RuntimeException("所选类别需定位为第三级");
         }
@@ -162,5 +168,20 @@ public class CmsCourseServiceImpl implements CmsCourseService {
         CmsCourseExample example = new CmsCourseExample();
         example.createCriteria().andIdIn(cmsCourseId);
         return cmsCourseMapper.updateByExampleSelective(cmsCourse,example);
+    }
+
+    @Override
+    public int addHomework(CmsCourseHomeworkParam courseHomeworkParam) {
+        List<Long> homeworkList = courseHomeworkParam.getHomeworkList();
+        Long courseId = courseHomeworkParam.getCourseId();
+        List<CmsCourseHomeworkRelation> courseHomeworkRelations = new ArrayList<>(homeworkList.size());
+        for (int i = 0;i<homeworkList.size();i++) {
+            CmsCourseHomeworkRelation courseHomeworkRelation = new CmsCourseHomeworkRelation();
+            courseHomeworkRelation.setCourseId(courseId);
+            courseHomeworkRelation.setHomeworkId(homeworkList.get(i));
+            courseHomeworkRelations.add(courseHomeworkRelation);
+        }
+        return cmsCourseHomeworkRelationDao.insertList(courseHomeworkRelations);
+
     }
 }

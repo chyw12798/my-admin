@@ -53,6 +53,7 @@ public class AdminDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
+        // 仅仅是获取permission的value
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         for (MasPermission permission: masPermissionList) {
             if (permission.getValue() != null ) {
@@ -70,8 +71,16 @@ public class AdminDetails implements UserDetails {
          */
     }
 
+    public List<MasPermission> getMasPermissionList() {
+        return this.masPermissionList;
+    }
+
     public MasAdmin getMasAdmin(){
         return this.masAdmin;
+    }
+
+    public MasRole getMasRole() {
+        return this.masRole;
     }
 
     @Override

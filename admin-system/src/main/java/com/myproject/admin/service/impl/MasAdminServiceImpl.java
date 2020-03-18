@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.security.Principal;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -108,21 +109,26 @@ public class MasAdminServiceImpl implements MasAdminService {
     }
 
     @Override
-    public CommonResult register(String userName, String password) {
+    public CommonResult register(MasAdmin masAdmin) {
         MasAdminExample example = new MasAdminExample();
-        example.createCriteria().andUserNameEqualTo(userName);
+        example.createCriteria().andUserNameEqualTo(masAdmin.getUserName());
         List<MasAdmin> admins = adminMapper.selectByExample(example);
         if (!CollectionUtils.isEmpty(admins)) {
 //            return CommonResult.failed("该账号已被注册!");
             return CommonResult.failed("账号已被注册！");
         }
-        String encodPasswrd = passwordEncoder.encode(password);
-        MasAdmin rAdmin = new MasAdmin();
-        rAdmin.setUserName(userName);
-        rAdmin.setPassword(encodPasswrd);
-        rAdmin.setRegisterDate(new Date());
-        rAdmin.setStatus(1);
-        int count = adminMapper.insert(rAdmin);
+        MasAdminExample example2 = new MasAdminExample();
+        example2.createCriteria().andPhoneEqualTo(masAdmin.getPhone());
+        List<MasAdmin> admins2 = adminMapper.selectByExample(example2);
+        if (!CollectionUtils.isEmpty(admins2)) {
+//            return CommonResult.failed("该账号已被注册!");
+            return CommonResult.failed("手机号已被使用！");
+        }
+        String encodPasswrd = passwordEncoder.encode(masAdmin.getPassword());
+        masAdmin.setPassword(encodPasswrd);
+        masAdmin.setRegisterDate(new Date());
+        masAdmin.setStatus(1);
+        int count = adminMapper.insert(masAdmin);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -280,5 +286,19 @@ public class MasAdminServiceImpl implements MasAdminService {
         adminRoleRelationMapper.insert(adminRoleRelation);
         return CommonResult.success(1);
     }
+
+    @Override
+    public Map<String,Object> info(Principal principal) {
+
+        String userName = principal.getName();
+        AdminDetails adminDetails = loadDetailByName(userName);
+        Map<String,Object> info = new HashMap<>(3);
+        info.put("userName",userName);
+        info.put("role",adminDetails.getMasRole());
+        info.put("permissions",adminDetails.getMasPermissionList());
+        return info;
+    }
+
+
 }
 

@@ -1,5 +1,6 @@
 package com.myproject.admin.service;
 
+import com.myproject.admin.dto.CmsCourseHomeworkParam;
 import com.myproject.admin.dto.CmsCourseResult;
 import com.myproject.admin.model.CmsCourse;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,4 +21,6 @@ public interface CmsCourseService {
     int bathPublishCourse( List<Long> cmsCourseId,Integer publishStatus);
 
     int bathDeleteCourse( List<Long> cmsCourseId);
+
+    int addHomework(CmsCourseHomeworkParam courseHomeworkParam);
 }
