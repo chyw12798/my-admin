@@ -7,9 +7,11 @@ import com.myproject.admin.model.CmsCourseCategory;
 import java.util.List;
 
 public interface CmsCourseCategoryService {
-    int getUpdateInfo(CmsCourseCategory cmsCourseCategory);
+    int add(CmsCourseCategory cmsCourseCategory);
 
-    List<CmsCourseCategoryNode> treeList();
+    List<CmsCourseCategoryNode> treeList(Integer pageNum,Integer pageSize);
 
     int addHomework(CmsCourseCategoryHomeworkParam courseCategoryHomeworkParam);
+
+    List<CmsCourseCategoryNode> getParentCateList();
 }

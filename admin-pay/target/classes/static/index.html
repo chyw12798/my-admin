@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <meta charset="UTF-8">
+       <title>Title</title>
+
+</head>
+
+
+<body>
+<H1>支付宝demo测试</H1>
+<hr>
+<!--<form action="/alipay/pay" method="post" id="form">-->
+       *商户订单 :<br>
+       <input type="text" id="out_trade_no"><br>
+       *订单名称 :<br>
+       <input type="text" id="subject"><br>
+       *付款金额 :<br>
+       <input type="text" id="total_amount"><br>
+        商品描述 :<br>
+       <input type="text" id="body"><br>
+       <input type="submit" id="submitId" value="支付宝支付"/>
+<!--</form>-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#submitId").click(
+            function () {
+                $.ajax({
+                    type : 'POST',
+                    dataType : 'text',
+                    url : '/alipay/pay',
+                    contentType : 'application/json',
+                    // data : JSON.stringify($('#form').serializeObject()),
+                    data : JSON.stringify({"out_trade_no":"1",
+                        "total_amount":"1666.66",
+                        "body":"购买数量：1",
+                        "subject":"Java基础讲解"}),
+                    // data : JSON.stringify(str),
+                    success : function (data) {
+                        console.log("---成功:" + data)
+                    },
+                    error : function (data) {
+                        console.log("---失败：" + data)
+                    }
+                });
+            });
+    });
+
+</script>
+
+</body>
+
+</html>

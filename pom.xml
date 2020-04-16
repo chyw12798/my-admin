@@ -13,6 +13,7 @@
         <module>admin-mbg</module>
         <module>admin-common</module>
         <module>admin-user</module>
+        <module>admin-pay</module>
     </modules>
 
     <!--

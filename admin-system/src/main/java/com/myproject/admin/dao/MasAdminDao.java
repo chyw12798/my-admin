@@ -1,5 +1,6 @@
 package com.myproject.admin.dao;
 
+import com.myproject.admin.dto.MasAdminInfo;
 import com.myproject.admin.model.MasPermission;
 import com.myproject.admin.model.MasRole;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,10 @@ public interface MasAdminDao {
      */
     MasRole getAdminRole(@Param("adminId") Long adminId);
 
+    // 查询管理员列表
+    List<MasAdminInfo> getAdminList(@Param("nickName") String nickName, @Param("phone") String phone,
+                                    @Param("role") String role, @Param("startTime") String startTime,
+                                    @Param("endTime") String endTime);
+
+    MasAdminInfo getAdminInfo(@Param("adminId") Long adminId);
 }

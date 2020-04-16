@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myproject.admin.mapper.CmsCourseCartMapper">
+  <resultMap id="BaseResultMap" type="com.myproject.admin.model.CmsCourseCart">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="quantity" jdbcType="BIGINT" property="quantity" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="course_pic" jdbcType="VARCHAR" property="coursePic" />
+    <result column="couese_sub_title" jdbcType="VARCHAR" property="coueseSubTitle" />
+    <result column="course_sn" jdbcType="VARCHAR" property="courseSn" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="course_catogery_id" jdbcType="BIGINT" property="courseCatogeryId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="teacher_id" jdbcType="BIGINT" property="teacherId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, course_id, quantity, price, course_name, course_pic, couese_sub_title, 
+    course_sn, user_name, course_catogery_id, create_time, modify_time, delete_status, 
+    teacher_id
+  </sql>
+  <select id="selectByExample" parameterType="com.myproject.admin.model.CmsCourseCartExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cms_course_cart
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cms_course_cart
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cms_course_cart
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myproject.admin.model.CmsCourseCartExample">
+    delete from cms_course_cart
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myproject.admin.model.CmsCourseCart">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cms_course_cart (user_id, course_id, quantity, 
+      price, course_name, course_pic, 
+      couese_sub_title, course_sn, user_name, 
+      course_catogery_id, create_time, modify_time, 
+      delete_status, teacher_id)
+    values (#{userId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{quantity,jdbcType=BIGINT}, 
+      #{price,jdbcType=DECIMAL}, #{courseName,jdbcType=VARCHAR}, #{coursePic,jdbcType=VARCHAR}, 
+      #{coueseSubTitle,jdbcType=VARCHAR}, #{courseSn,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{courseCatogeryId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{deleteStatus,jdbcType=INTEGER}, #{teacherId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myproject.admin.model.CmsCourseCart">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cms_course_cart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="coursePic != null">
+        course_pic,
+      </if>
+      <if test="coueseSubTitle != null">
+        couese_sub_title,
+      </if>
+      <if test="courseSn != null">
+        course_sn,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="courseCatogeryId != null">
+        course_catogery_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="deleteStatus != null">
+        delete_status,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="coursePic != null">
+        #{coursePic,jdbcType=VARCHAR},
+      </if>
+      <if test="coueseSubTitle != null">
+        #{coueseSubTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="courseSn != null">
+        #{courseSn,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCatogeryId != null">
+        #{courseCatogeryId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myproject.admin.model.CmsCourseCartExample" resultType="java.lang.Long">
+    select count(*) from cms_course_cart
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cms_course_cart
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=BIGINT},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=BIGINT},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.courseName != null">
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coursePic != null">
+        course_pic = #{record.coursePic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coueseSubTitle != null">
+        couese_sub_title = #{record.coueseSubTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseSn != null">
+        course_sn = #{record.courseSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseCatogeryId != null">
+        course_catogery_id = #{record.courseCatogeryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteStatus != null">
+        delete_status = #{record.deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cms_course_cart
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      course_id = #{record.courseId,jdbcType=BIGINT},
+      quantity = #{record.quantity,jdbcType=BIGINT},
+      price = #{record.price,jdbcType=DECIMAL},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      course_pic = #{record.coursePic,jdbcType=VARCHAR},
+      couese_sub_title = #{record.coueseSubTitle,jdbcType=VARCHAR},
+      course_sn = #{record.courseSn,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      course_catogery_id = #{record.courseCatogeryId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      delete_status = #{record.deleteStatus,jdbcType=INTEGER},
+      teacher_id = #{record.teacherId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myproject.admin.model.CmsCourseCart">
+    update cms_course_cart
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="coursePic != null">
+        course_pic = #{coursePic,jdbcType=VARCHAR},
+      </if>
+      <if test="coueseSubTitle != null">
+        couese_sub_title = #{coueseSubTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="courseSn != null">
+        course_sn = #{courseSn,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCatogeryId != null">
+        course_catogery_id = #{courseCatogeryId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null">
+        delete_status = #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myproject.admin.model.CmsCourseCart">
+    update cms_course_cart
+    set user_id = #{userId,jdbcType=BIGINT},
+      course_id = #{courseId,jdbcType=BIGINT},
+      quantity = #{quantity,jdbcType=BIGINT},
+      price = #{price,jdbcType=DECIMAL},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      course_pic = #{coursePic,jdbcType=VARCHAR},
+      couese_sub_title = #{coueseSubTitle,jdbcType=VARCHAR},
+      course_sn = #{courseSn,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      course_catogery_id = #{courseCatogeryId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      teacher_id = #{teacherId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

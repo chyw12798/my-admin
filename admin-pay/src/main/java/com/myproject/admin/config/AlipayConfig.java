@@ -1,0 +1,27 @@
+package com.myproject.admin.config;
+
+/**
+ * @ClassName AlipayConfig
+ * @Description TODO
+ * @Author chyw1
+ * @Date 2020/3/31 9:49
+ * @Version 1.0
+ */
+public class AlipayConfig {
+
+    public static final String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
+
+    public static final String app_id = "2016102000727030";
+
+    public static final String merchant_private_key = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCLYwdrXxnDQ+OujIPbfYMvzvlPxD9+gbbAdVWPkj8oYjuiw7DmhtuoeRbHMrMww52O5/7OI9tkdLZMuL0YAcjPz8N7dBxBXIzVQy+a1aebYiC9hrCit8uxLX+OGH+2zmvEGUSqLPieBnj7zQp/1tFih3SIX9GfLN8cDcZKeGgUj93KNmNa3bCcQVPXh8+HCicRWlUc9e/PKA+dgT8YHVVGFMzn2OpVfyfzutrurxcanQZM9yUXjtxGprxJvPyOrWy5e65/PInXMtpYjo+AeBcScbQmTcD6PU0I5+esf1PcLhzwxJm2RF0o4M115Y83PO/bhAdL31UwSibqI4GIIvX7AgMBAAECggEAY6uRb57WXkGaeoMx+m6as0IOFpLfUEfS9XYxk3NhRDBSMoY6Ze2C/spvlktTxQfsD3cnRiJvzDqE7QGg/ZyxCqCnSQzy824JqqnbTZ1/t2WIwd2hSwmgVvaQ4nv0PzUF7HihGAsGUIGSW4P4AQgMO6delfHmhCri8z2KUFAfJKvYlDFbY+5KsbmqKDFw11ag3hkRCJU6Vf9ku4LTyXfpMjz/QzshuKWE4pJKJU/H0zXjtG7izIrL3icHEM7NQvVqtktqywv8Q4MMnofJcze/hZ7r00ot5Fz2KcQ0iT/i7LZOFkHnbTVznj1fU90WaxCQkOxVzuwJ9xEYVq4tQt5poQKBgQDJlep3lKf7dbIOZFLm45pD1TQbiOG7KhJXBVmx3xdG56q68QYo29Qs3/r34cwSwkA8go8/M+3tWqFyTm5fl4heXleFSexr8gW5neXCqQChpoLwxdvOFMuOVdRcCuvu36OoYwgBQ603gmFI2fIJWkpNNQK+S+Fq/fgwXM7ld9FYKwKBgQCxAwSCTFq4PKpVlQ5TRawTLANEpz8Irff+jltUzVJ0Sqj4heEOtWVmKDkReCdEgUel3xWjkFXKilphek+UZUwKOOk755cloLMAlrZepFcAI+SpAGNu74CDZcg6pi20bBl4gAlFqi4KIuPZUYe7EbqSx0xf5flEQ/hNEnGLyNihcQKBgGVTk82TzXQaTuvpBbrFAQ/DpTOJ9F0N4rYXHGTKDHs5i5n3+O6kwNvlodLjjp6HQZ6oybQtOBUsjyZTwisOkh9NMJTw+YOw3avVcF4OcSDP/9Vivv+xeDgNcHbrjng9tZe4X5ezGuhiAuCJnJ2S4vI4CS76GU6cZhp5LA4v0eyNAoGARCMAOlO/3AlmG9lrkTxRd3PKskOarPGic3dCysraQW93yWpnbmz+4ir7hLD2lJUbCktsHfDyRSuqjLkzJtEzSwALL4b/FHneTYy2GIoz/xbR7wf6PnqswmeMgp7zGu89grfuWcWfQUGa6U1L7QNvCQ70ZDm3EMMFMk22LXObh9ECgYBYMxLcsN8J6OPpbdpX3WSTYnIHscbD6EpTzPC+wJQOvCln3F2n1dB4wFFrADZ3F1yugHknFB4J0VzBVIKcLO2EkRxsbIL9s1OWI3mR1gGwGZxzzSX/9yQ+U6wx1WuzHeS3DOJEP0jV3pWij/GkTfCfYYmuNLAt/3kayc7KVv3KPg==";
+
+    public static final String charset = "utf-8";
+
+    public static final String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmO/MUaq5gnGvqs9g6yVzvb/4NqQSguSDyz2wNYuRszR4MX2kgcyKDUV1iis7mbO4oUAOMsEW6cyi4rMxsx+zPA1IuaUcpinCdU1SBNCgvIvAJjB2SgS5YUVddmqJgAmqAxqw39FxdUaHwybjvYDJRWXr6cu1b0bxVsNSTfnquSDv9dfP3ziUNCPTCRa+NDZeYhajKJyU9Sq0HgV4QtEO5fD/ADm69nVRXiqKkScJVzb5qBguXCUa7E9wXObG+iYYxUc/5xP/EWrh9m0YGW5oF5RwLq5RTE82w5rAAW1J22VuN9AiPkzbTQhSVJqEpjBogeeiJryQTfKYxZRHHOsVXQIDAQAB";
+
+    public static final String sign_type = "RSA2";
+
+    public static final String return_url = "http://localhost:9898/alipay/ReturnNotice";
+
+    public static final String notify_url = "http://localhost:9898/alipay/NotifyNotice";
+}

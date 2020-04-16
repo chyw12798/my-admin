@@ -16,6 +16,7 @@
     <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, course_id, user_id, order_sn, create_time, total_amount, pay_amount, conpon_amount, 
-    pay_type, status, pay_time, delete_status, note, modify_time
+    pay_type, status, pay_time, delete_status, note, modify_time, course_name
   </sql>
   <select id="selectByExample" parameterType="com.myproject.admin.model.CmsCourseOrderExample" resultMap="BaseResultMap">
     select
@@ -117,12 +118,12 @@
       create_time, total_amount, pay_amount, 
       conpon_amount, pay_type, status, 
       pay_time, delete_status, note, 
-      modify_time)
+      modify_time, course_name)
     values (#{courseId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{totalAmount,jdbcType=DECIMAL}, #{payAmount,jdbcType=DECIMAL}, 
       #{conponAmount,jdbcType=DECIMAL}, #{payType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{payTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, 
-      #{modifyTime,jdbcType=TIMESTAMP})
+      #{modifyTime,jdbcType=TIMESTAMP}, #{courseName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.myproject.admin.model.CmsCourseOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -169,6 +170,9 @@
       <if test="modifyTime != null">
         modify_time,
       </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="courseId != null">
@@ -209,6 +213,9 @@
       </if>
       <if test="modifyTime != null">
         #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -263,6 +270,9 @@
       <if test="record.modifyTime != null">
         modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.courseName != null">
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +293,8 @@
       pay_time = #{record.payTime,jdbcType=TIMESTAMP},
       delete_status = #{record.deleteStatus,jdbcType=INTEGER},
       note = #{record.note,jdbcType=VARCHAR},
-      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      course_name = #{record.courseName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,6 +341,9 @@
       <if test="modifyTime != null">
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -347,7 +361,8 @@
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       delete_status = #{deleteStatus,jdbcType=INTEGER},
       note = #{note,jdbcType=VARCHAR},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      course_name = #{courseName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

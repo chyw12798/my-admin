@@ -20,7 +20,7 @@ public class UmsUser implements Serializable {
     private String realName;
 
     @ApiModelProperty(value = "手机号码")
-    private String number;
+    private String phone;
 
     @ApiModelProperty(value = "头像")
     private String icon;
@@ -53,7 +53,7 @@ public class UmsUser implements Serializable {
     private Date registerTime;
 
     @ApiModelProperty(value = "状态: 0->禁用 1->正常")
-    private Byte status;
+    private Integer status;
 
     @ApiModelProperty(value = "所属学校id")
     private Long schoolId;
@@ -63,6 +63,12 @@ public class UmsUser implements Serializable {
 
     @ApiModelProperty(value = "所属班级id")
     private Long classId;
+
+    @ApiModelProperty(value = "推荐用户ID")
+    private Long commandId;
+
+    @ApiModelProperty(value = "积分数")
+    private Integer integrals;
 
     private static final long serialVersionUID = 1L;
 
@@ -106,12 +112,12 @@ public class UmsUser implements Serializable {
         this.realName = realName;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getIcon() {
@@ -194,11 +200,11 @@ public class UmsUser implements Serializable {
         this.registerTime = registerTime;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -226,6 +232,22 @@ public class UmsUser implements Serializable {
         this.classId = classId;
     }
 
+    public Long getCommandId() {
+        return commandId;
+    }
+
+    public void setCommandId(Long commandId) {
+        this.commandId = commandId;
+    }
+
+    public Integer getIntegrals() {
+        return integrals;
+    }
+
+    public void setIntegrals(Integer integrals) {
+        this.integrals = integrals;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -237,7 +259,7 @@ public class UmsUser implements Serializable {
         sb.append(", nickName=").append(nickName);
         sb.append(", password=").append(password);
         sb.append(", realName=").append(realName);
-        sb.append(", number=").append(number);
+        sb.append(", phone=").append(phone);
         sb.append(", icon=").append(icon);
         sb.append(", sex=").append(sex);
         sb.append(", birthDate=").append(birthDate);
@@ -252,6 +274,8 @@ public class UmsUser implements Serializable {
         sb.append(", schoolId=").append(schoolId);
         sb.append(", gradeId=").append(gradeId);
         sb.append(", classId=").append(classId);
+        sb.append(", commandId=").append(commandId);
+        sb.append(", integrals=").append(integrals);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

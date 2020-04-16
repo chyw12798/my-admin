@@ -40,6 +40,9 @@ public class MasAdminController {
     @ResponseBody
     public CommonResult login (@RequestBody MasAdminParam adminParam) {
         String token = adminService.login(adminParam);
+        if (token.equals("权限不足!")) {
+            return CommonResult.failed("权限不足!");
+        }
         Map<String ,String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
@@ -76,14 +79,13 @@ public class MasAdminController {
     @ApiOperation(value = "获取当前登录用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult info(@RequestHeader(name = "Authorization")String myHeader,
-                             Principal principal) {
+    public CommonResult info(@RequestHeader(name = "Authorization")String myHeader) {
         // 登录的时候返回的用户信息
-        return CommonResult.success(adminService.info(principal));
+        return CommonResult.success(adminService.info());
     }
 
     @ApiOperation(value = "登出功能")
-    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult logout(Principal principal) {
         return CommonResult.success(null);
@@ -93,10 +95,14 @@ public class MasAdminController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult list(@RequestHeader(name = "Authorization")String myHeader,
-                             @RequestParam(value = "userName", required = false) String userName,
+                             @RequestParam(value = "nickName", required = false) String nickName,
+                             @RequestParam(value = "phone", required = false) String phone,
+                             @RequestParam(value = "role", required = false) String role,
+                             @RequestParam(value = "startTime", required = false) String startTime,
+                             @RequestParam(value = "endTime", required = false) String endTime,
                              @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                              @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum){
-        List<MasAdmin> adminList = adminService.list(userName,pageNum,pageSize);
+        List<MasAdminInfo> adminList = adminService.list(nickName,phone,role,startTime,endTime,pageNum,pageSize);
         return CommonResult.success(CommonPage.restPage(adminList));
     }
 
@@ -143,5 +149,43 @@ public class MasAdminController {
     public CommonResult roleUpdate(@RequestHeader(name = "Authorization")String myHeader,
                                          @RequestBody UpdateAdminRoleParam updateAdminRoleParam) {
         return adminService.roleUpdate(updateAdminRoleParam);
+    }
+
+    @ApiOperation("修改管理员状态")
+    @RequestMapping(value = "/updateStatus/{adminId}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateStatus(@RequestHeader(name = "Authorization") String myHeader,
+                                     @PathVariable Long adminId){
+
+        int count = adminService.updateStatus(adminId);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed("修改状态失败");
+    }
+
+    @ApiOperation("获取用户编辑信息")
+    @RequestMapping(value = "/editInfo/{adminId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult editInfo(@RequestHeader(name = "Authorization")String myHeader,
+                                     @PathVariable Long adminId){
+
+        MasAdmin admin = adminService.editInfo(adminId);
+        if (admin != null) {
+            return CommonResult.success(admin);
+        }
+        return CommonResult.failed("获取数据失败");
+    }
+
+    @ApiOperation("更新用户信息")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult update(@RequestHeader(name = "Authorization") String myHeader,
+                               @RequestBody MasAdminInfo adminInfo){
+        int count = adminService.update(adminInfo);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed("更新失败");
     }
 }

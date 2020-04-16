@@ -11,7 +11,7 @@ import org.springframework.web.filter.CorsFilter;
 public class GlobalCorsConfig {
 
     /**
-     *
+     * 此处的跨域配置并未生效，在jwtfilter里加了相应response的配置
      */
     @Bean
     public CorsFilter corsFilter() {

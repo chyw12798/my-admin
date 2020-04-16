@@ -41,7 +41,8 @@ public class MasPermissionController {
     @ApiOperation(value = "添加权限")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult add (@RequestBody MasPermission permission) {
+    public CommonResult add (@RequestHeader(name = "Authorization")String myHeader,
+                             @RequestBody MasPermission permission) {
         int count = permissionService.add(permission);
         if (count > 0) {
             return CommonResult.success("添加成功");
@@ -52,7 +53,7 @@ public class MasPermissionController {
     @ApiOperation(value = "根据ids删除权限")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult delete(@RequestParam("ids") List<Long> ids){
+    public CommonResult delete(@RequestHeader(name = "Authorization")String myHeader,@RequestParam("ids") List<Long> ids){
         int count = permissionService.delete(ids);
         if (count > 0) {
             return CommonResult.success("删除成功");

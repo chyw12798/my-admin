@@ -1,5 +1,7 @@
 package com.myproject.admin.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.myproject.admin.api.CommonPage;
 import com.myproject.admin.api.CommonResult;
 import com.myproject.admin.dto.CmsCourseCategoryHomeworkParam;
 import com.myproject.admin.dto.CmsCourseCategoryNode;
@@ -33,9 +35,12 @@ public class CmsCourseCategoryController {
     @ApiOperation(value = "查询分类列表")
     @RequestMapping(value = "/treeList", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult treeList(@RequestHeader(name = "Authorization")String myHeader){
-        List<CmsCourseCategoryNode> nodeList = courseCategoryService.treeList();
-        return CommonResult.success(nodeList);
+    public CommonResult treeList(@RequestHeader(name = "Authorization")String myHeader,
+                                 @RequestParam(name = "pageNum",defaultValue = "1")Integer pageNum,
+                                 @RequestParam(name = "pageSize",defaultValue = "5")Integer pageSize){
+
+        List<CmsCourseCategoryNode> nodeList = courseCategoryService.treeList(pageNum,pageSize);
+        return CommonResult.success(CommonPage.restPage(nodeList));
     }
 
 
@@ -44,7 +49,7 @@ public class CmsCourseCategoryController {
     @ResponseBody
     public CommonResult add(@RequestHeader(name = "Authorization")String myHeader,
                             @RequestBody CmsCourseCategory cmsCourseCategory){
-        int count = courseCategoryService.getUpdateInfo(cmsCourseCategory);
+        int count = courseCategoryService.add(cmsCourseCategory);
 
         if (count>0) {
             return CommonResult.success(count);
@@ -63,6 +68,14 @@ public class CmsCourseCategoryController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "父级分类列表")
+    @RequestMapping(value = "/getParentCateList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getParentCateList(@RequestHeader(name = "Authorization")String myHeader){
+        List<CmsCourseCategoryNode> list = courseCategoryService.getParentCateList();
+        return CommonResult.success(list);
     }
 
 }

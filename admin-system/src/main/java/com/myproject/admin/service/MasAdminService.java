@@ -21,6 +21,7 @@ public interface MasAdminService {
      * @Date 11:22　2020/3/12
      * @Param [userName]
      * @return com.myproject.admin.component.AdminDetails
+     * @exception RuntimeException ("暂无任何权限")、UsernameNotFoundException
      **/
     AdminDetails loadDetailByName(String userName);
 
@@ -29,7 +30,7 @@ public interface MasAdminService {
     CommonResult register(MasAdmin masAdmin);
 
 
-    List<MasAdmin> list(String userName,Integer pageNum,Integer pageSize);
+    List<MasAdminInfo> list(String nickName,String phone,String role,String startTime,String endTime,Integer pageNum,Integer pageSize);
 
     CommonResult updatePassword(UpdatePasswordParam updatePasswordParam);
 
@@ -51,5 +52,12 @@ public interface MasAdminService {
     @Transactional
     CommonResult roleUpdate(UpdateAdminRoleParam updateAdminRoleParam);
 
-    Map<String, Object> info(Principal principal);
+    Map<String, Object> info();
+
+    int updateStatus(Long adminId);
+
+    MasAdmin editInfo(Long adminId);
+
+    @Transactional
+    int update(MasAdminInfo adminInfo);
 }

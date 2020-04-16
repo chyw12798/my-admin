@@ -6,6 +6,7 @@
     <select id="getAdminPermissionList" resultType="com.myproject.admin.model.MasPermission">
          select
             c.id as id,
+            c.pid as pid,
             c.permission_name as permissionName,
             c.pid as pwd,
             c.value as value,
@@ -17,7 +18,7 @@
         from mas_admin_permission_relation a
         inner join mas_admin b on a.admin_id=b.id
         inner join mas_permission c on a.permission_id = c.id
-        where b.id = #{adminId}
+        where b.id = #{adminId} and c.status = 1
 
 
     </select>
@@ -29,5 +30,60 @@
         inner join mas_role c on a.role_id = c.id
         where b.id = #{adminId}
 
+    </select>
+    <select id="getMenuPermission" resultType="com.myproject.admin.model.MasPermission">
+
+        select
+            c.id as id,
+            c.permissionName
+        from mas_admin_permission_relation a
+        inner join mas_admin b on a.admin_id = b.id
+        inner join mas_permission c on a.permission_id = c.id
+        where c.pid = 0 and b.id = #{adminId}
+    </select>
+    <select id="getAdminList" resultType="com.myproject.admin.dto.MasAdminInfo">
+
+        select
+            b.id as id,
+            b.nick_name as nickName,
+            b.phone as phone,
+            b.register_date as createTime,
+            b.status as status,
+            c.role_name as role
+        from mas_admin b
+        left join mas_admin_role_relation a on a.admin_id = b.id
+        left join mas_role c on a.role_id = c.id
+        <where>
+            <if test="nickName != null and nickName != ''">
+                AND b.nick_name like concat("%",#{nickName},"%")
+            </if>
+            <if test="role != null and role != ''">
+                and c.role_name like concat("%",#{role},"%")
+            </if>
+            <if test="phone != null and phone != ''">
+                and b.phone like concat("%",#{phone},"%")
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and b.register_date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime !=''">
+                and b.register_date &lt;= #{endTime}
+            </if>
+        </where>
+
+    </select>
+    <select id="getAdminInfo" resultType="com.myproject.admin.dto.MasAdminInfo">
+
+        select
+            a.id as id,
+            a.user_name as userName,
+            a.nick_name as nickName,
+            a.phone as phone,
+            c.id as roleId,
+            c.role_name as role
+        from mas_admin a
+        left join mas_admin_role_relation b on a.id = b.admin_id
+        left join mas_role c on b.role_id = c.id
+        where a.id = #{adminId}
     </select>
 </mapper>

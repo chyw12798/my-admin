@@ -37,7 +37,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.myproject.admin.mapper"
                              targetProject="admin-mbg\src\main\java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="mas_admin_permission_relation">
+        <table tableName="cms_order_flow">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

@@ -445,73 +445,73 @@ public class UmsUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andNumberIsNull() {
-            addCriterion("number is null");
+        public Criteria andPhoneIsNull() {
+            addCriterion("phone is null");
             return (Criteria) this;
         }
 
-        public Criteria andNumberIsNotNull() {
-            addCriterion("number is not null");
+        public Criteria andPhoneIsNotNull() {
+            addCriterion("phone is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNumberEqualTo(String value) {
-            addCriterion("number =", value, "number");
+        public Criteria andPhoneEqualTo(String value) {
+            addCriterion("phone =", value, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberNotEqualTo(String value) {
-            addCriterion("number <>", value, "number");
+        public Criteria andPhoneNotEqualTo(String value) {
+            addCriterion("phone <>", value, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberGreaterThan(String value) {
-            addCriterion("number >", value, "number");
+        public Criteria andPhoneGreaterThan(String value) {
+            addCriterion("phone >", value, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberGreaterThanOrEqualTo(String value) {
-            addCriterion("number >=", value, "number");
+        public Criteria andPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("phone >=", value, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberLessThan(String value) {
-            addCriterion("number <", value, "number");
+        public Criteria andPhoneLessThan(String value) {
+            addCriterion("phone <", value, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberLessThanOrEqualTo(String value) {
-            addCriterion("number <=", value, "number");
+        public Criteria andPhoneLessThanOrEqualTo(String value) {
+            addCriterion("phone <=", value, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberLike(String value) {
-            addCriterion("number like", value, "number");
+        public Criteria andPhoneLike(String value) {
+            addCriterion("phone like", value, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberNotLike(String value) {
-            addCriterion("number not like", value, "number");
+        public Criteria andPhoneNotLike(String value) {
+            addCriterion("phone not like", value, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberIn(List<String> values) {
-            addCriterion("number in", values, "number");
+        public Criteria andPhoneIn(List<String> values) {
+            addCriterion("phone in", values, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberNotIn(List<String> values) {
-            addCriterion("number not in", values, "number");
+        public Criteria andPhoneNotIn(List<String> values) {
+            addCriterion("phone not in", values, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberBetween(String value1, String value2) {
-            addCriterion("number between", value1, value2, "number");
+        public Criteria andPhoneBetween(String value1, String value2) {
+            addCriterion("phone between", value1, value2, "phone");
             return (Criteria) this;
         }
 
-        public Criteria andNumberNotBetween(String value1, String value2) {
-            addCriterion("number not between", value1, value2, "number");
+        public Criteria andPhoneNotBetween(String value1, String value2) {
+            addCriterion("phone not between", value1, value2, "phone");
             return (Criteria) this;
         }
 
@@ -1205,52 +1205,52 @@ public class UmsUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Byte value) {
+        public Criteria andStatusEqualTo(Integer value) {
             addCriterion("status =", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Byte value) {
+        public Criteria andStatusNotEqualTo(Integer value) {
             addCriterion("status <>", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Byte value) {
+        public Criteria andStatusGreaterThan(Integer value) {
             addCriterion("status >", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("status >=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Byte value) {
+        public Criteria andStatusLessThan(Integer value) {
             addCriterion("status <", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Byte value) {
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
             addCriterion("status <=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Byte> values) {
+        public Criteria andStatusIn(List<Integer> values) {
             addCriterion("status in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Byte> values) {
+        public Criteria andStatusNotIn(List<Integer> values) {
             addCriterion("status not in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Byte value1, Byte value2) {
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
             addCriterion("status between", value1, value2, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
+        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
@@ -1432,6 +1432,126 @@ public class UmsUserExample {
 
         public Criteria andClassIdNotBetween(Long value1, Long value2) {
             addCriterion("class_id not between", value1, value2, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdIsNull() {
+            addCriterion("command_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdIsNotNull() {
+            addCriterion("command_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdEqualTo(Long value) {
+            addCriterion("command_id =", value, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdNotEqualTo(Long value) {
+            addCriterion("command_id <>", value, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdGreaterThan(Long value) {
+            addCriterion("command_id >", value, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("command_id >=", value, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdLessThan(Long value) {
+            addCriterion("command_id <", value, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdLessThanOrEqualTo(Long value) {
+            addCriterion("command_id <=", value, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdIn(List<Long> values) {
+            addCriterion("command_id in", values, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdNotIn(List<Long> values) {
+            addCriterion("command_id not in", values, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdBetween(Long value1, Long value2) {
+            addCriterion("command_id between", value1, value2, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommandIdNotBetween(Long value1, Long value2) {
+            addCriterion("command_id not between", value1, value2, "commandId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsIsNull() {
+            addCriterion("integrals is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsIsNotNull() {
+            addCriterion("integrals is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsEqualTo(Integer value) {
+            addCriterion("integrals =", value, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsNotEqualTo(Integer value) {
+            addCriterion("integrals <>", value, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsGreaterThan(Integer value) {
+            addCriterion("integrals >", value, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsGreaterThanOrEqualTo(Integer value) {
+            addCriterion("integrals >=", value, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsLessThan(Integer value) {
+            addCriterion("integrals <", value, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsLessThanOrEqualTo(Integer value) {
+            addCriterion("integrals <=", value, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsIn(List<Integer> values) {
+            addCriterion("integrals in", values, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsNotIn(List<Integer> values) {
+            addCriterion("integrals not in", values, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsBetween(Integer value1, Integer value2) {
+            addCriterion("integrals between", value1, value2, "integrals");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralsNotBetween(Integer value1, Integer value2) {
+            addCriterion("integrals not between", value1, value2, "integrals");
             return (Criteria) this;
         }
     }

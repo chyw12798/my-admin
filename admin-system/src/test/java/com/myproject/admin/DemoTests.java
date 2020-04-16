@@ -1,5 +1,9 @@
 package com.myproject.admin;
 
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
 /**
  * @ClassName DemoTests
  * @Description TODO
@@ -9,8 +13,62 @@ package com.myproject.admin;
  */
 public class DemoTests {
     public static void main(String[] args) {
+//
+//        String s1 = new String("123");
+//        String s2 = new String("123");
+//        String s3 = "123";
+//        String s4 = "123";
+//        System.out.println(s1==s2);
+//        System.out.println(s1 == s3);
+//        System.out.println(s2 == s3);
+//        System.out.println(s3 == s4);
+//        System.out.println(demo2(1234554321));
+//        int b = 1;
+//        Map<String,Object> a = new HashMap<String, Object>(2049);
 
-        System.out.println(demo2(1234554321));
+        List a = new ArrayList<Integer>();
+//        System.out.println(a.size());
+        a.add(1);
+        a.add(2);
+        a.add(6);
+        a.add(11);
+        // 三种遍历List的方式
+        Iterator<Integer> iter = a.iterator();
+        while (iter.hasNext()) {
+            System.out.println(iter.next());
+        }
+
+        // List转Array
+        Object[] b = a.toArray();
+        System.out.println(b[1]);
+
+        Integer[] c = (Integer [])a.toArray(new Integer[0]);
+        System.out.println(c[3]);
+
+//        a.put("a",1);
+
+
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        map.put("a",3);
+        map.put("b",4);
+        map.put("c",6);
+        // 获取map的 所有值
+        Set<String> s = map.keySet();
+        for (String q:s) {
+            System.out.println(map.get(q));
+        }
+
+        Set<Map.Entry<String,Integer>> r = map.entrySet();
+        for (Map.Entry<String,Integer> t : r) {
+            System.out.println(t.getKey() + "" + t.getValue());
+        }
+
+        HashSet y = new HashSet();
+        y.add("a");
+        ConcurrentHashMap<String,Integer> p = new ConcurrentHashMap();
+        p.put("l",1);
+
+//        AbstractQueuedSynchronizer
 
     }
 

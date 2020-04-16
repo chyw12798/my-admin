@@ -45,4 +45,6 @@ public interface MasPermissionService {
      * @return java.util.List<com.myproject.admin.dto.MasPermissionNode>
      **/
     List<MasPermissionNode> convert(MasPermission parentPermission, List<MasPermission> permissionList);
+
+    MasPermissionNode covert2(MasPermission permission,List<MasPermission> permissionList);
 }

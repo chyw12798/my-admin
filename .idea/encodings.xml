@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/admin-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/admin-mbg/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/admin-pay/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/admin-system/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/admin-user/src/main/java" charset="UTF-8" />
   </component>

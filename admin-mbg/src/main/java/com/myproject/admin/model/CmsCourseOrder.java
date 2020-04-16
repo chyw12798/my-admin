@@ -47,6 +47,9 @@ public class CmsCourseOrder implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date modifyTime;
 
+    @ApiModelProperty(value = "课程名字")
+    private String courseName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -161,6 +164,14 @@ public class CmsCourseOrder implements Serializable {
         this.modifyTime = modifyTime;
     }
 
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -181,6 +192,7 @@ public class CmsCourseOrder implements Serializable {
         sb.append(", deleteStatus=").append(deleteStatus);
         sb.append(", note=").append(note);
         sb.append(", modifyTime=").append(modifyTime);
+        sb.append(", courseName=").append(courseName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

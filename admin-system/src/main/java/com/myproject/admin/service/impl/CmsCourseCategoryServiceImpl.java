@@ -1,5 +1,6 @@
 package com.myproject.admin.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.myproject.admin.dao.CmsCourseCategoryHomeworkDao;
 import com.myproject.admin.dto.CmsCourseCategoryHomeworkParam;
 import com.myproject.admin.dto.CmsCourseCategoryNode;
@@ -35,15 +36,17 @@ public class CmsCourseCategoryServiceImpl implements CmsCourseCategoryService {
     private CmsCourseCategoryHomeworkDao courseCategoryHomeworkDao;
 
     @Override
-    public int getUpdateInfo(CmsCourseCategory cmsCourseCategory) {
+    public int add(CmsCourseCategory cmsCourseCategory) {
         return courseCategoryMapper.insert(cmsCourseCategory);
     }
 
     @Override
-    public List<CmsCourseCategoryNode> treeList() {
+    public List<CmsCourseCategoryNode> treeList(Integer pageNum,Integer pageSize) {
 
+//        PageHelper.startPage(pageNum,pageSize);
         List<CmsCourseCategory> courseCategoryList = courseCategoryMapper.selectByExample(new CmsCourseCategoryExample());
         if (!CollectionUtils.isEmpty(courseCategoryList)) {
+
             return courseCategoryList.stream().filter(cmsCourseCategory -> cmsCourseCategory.getPid().equals(0L))
                     .map(cmsCourseCategory -> convert(cmsCourseCategory,courseCategoryList)).collect(Collectors.toList());
         }
@@ -58,7 +61,9 @@ public class CmsCourseCategoryServiceImpl implements CmsCourseCategoryService {
         List<CmsCourseCategoryNode> childCourseCategoryList = courseCategoryList.stream()
                 .filter(childCourseCategory -> childCourseCategory.getPid().equals(cmsCourseCategory.getId()))
                 .map(childCourseCategory -> convert(childCourseCategory, courseCategoryList)).collect(Collectors.toList());
-        node.setChildren(childCourseCategoryList);
+        if (!CollectionUtils.isEmpty(childCourseCategoryList)) {
+            node.setChildren(childCourseCategoryList);
+        }
         return node;
     }
 
@@ -75,5 +80,17 @@ public class CmsCourseCategoryServiceImpl implements CmsCourseCategoryService {
             courseCateHomeworkRelations.add(relation);
         }
         return courseCategoryHomeworkDao.insertList(courseCateHomeworkRelations);
+    }
+
+    @Override
+    public List<CmsCourseCategoryNode> getParentCateList() {
+        CmsCourseCategoryExample example = new CmsCourseCategoryExample();
+        example.createCriteria().andLevelBetween(1,2);
+        List<CmsCourseCategory> list = courseCategoryMapper.selectByExample(example);
+        if (!CollectionUtils.isEmpty(list)) {
+            return list.stream().filter(cmsCourseCategory -> cmsCourseCategory.getPid().equals(0L))
+                    .map(cmsCourseCategory -> convert(cmsCourseCategory,list)).collect(Collectors.toList());
+        }
+        return null;
     }
 }

@@ -23,4 +23,6 @@ public interface MasRoleService {
     int updatePermission( UpdateRolePemissions updateRolePemissions);
 
     List<MasPermissionNode> permissionTreeList(Long roleId);
+
+    List<MasRole> listAll();
 }

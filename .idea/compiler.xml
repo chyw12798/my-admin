@@ -10,6 +10,7 @@
         <module name="admin-user" />
         <module name="admin-system" />
         <module name="admin-mbg" />
+        <module name="admin-pay" />
       </profile>
     </annotationProcessing>
   </component>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="admin-common" options="-parameters" />
       <module name="admin-mbg" options="-parameters" />
+      <module name="admin-pay" options="-parameters" />
       <module name="admin-system" options="-parameters" />
       <module name="admin-user" options="-parameters" />
     </option>

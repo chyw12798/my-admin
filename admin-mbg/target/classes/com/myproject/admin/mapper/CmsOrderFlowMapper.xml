@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myproject.admin.mapper.CmsOrderFlowMapper">
+  <resultMap id="BaseResultMap" type="com.myproject.admin.model.CmsOrderFlow">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="flow_num" jdbcType="VARCHAR" property="flowNum" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="pay_amount" jdbcType="VARCHAR" property="payAmount" />
+    <result column="pay_method" jdbcType="INTEGER" property="payMethod" />
+    <result column="buy_counts" jdbcType="INTEGER" property="buyCounts" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="flow_sn" jdbcType="VARCHAR" property="flowSn" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, flow_num, course_id, pay_amount, pay_method, buy_counts, create_time, flow_sn
+  </sql>
+  <select id="selectByExample" parameterType="com.myproject.admin.model.CmsOrderFlowExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cms_order_flow
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cms_order_flow
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cms_order_flow
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myproject.admin.model.CmsOrderFlowExample">
+    delete from cms_order_flow
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myproject.admin.model.CmsOrderFlow">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cms_order_flow (flow_num, course_id, pay_amount, 
+      pay_method, buy_counts, create_time, 
+      flow_sn)
+    values (#{flowNum,jdbcType=VARCHAR}, #{courseId,jdbcType=BIGINT}, #{payAmount,jdbcType=VARCHAR}, 
+      #{payMethod,jdbcType=INTEGER}, #{buyCounts,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{flowSn,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myproject.admin.model.CmsOrderFlow">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cms_order_flow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flowNum != null">
+        flow_num,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="payAmount != null">
+        pay_amount,
+      </if>
+      <if test="payMethod != null">
+        pay_method,
+      </if>
+      <if test="buyCounts != null">
+        buy_counts,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="flowSn != null">
+        flow_sn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flowNum != null">
+        #{flowNum,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="payAmount != null">
+        #{payAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="payMethod != null">
+        #{payMethod,jdbcType=INTEGER},
+      </if>
+      <if test="buyCounts != null">
+        #{buyCounts,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flowSn != null">
+        #{flowSn,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myproject.admin.model.CmsOrderFlowExample" resultType="java.lang.Long">
+    select count(*) from cms_order_flow
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cms_order_flow
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.flowNum != null">
+        flow_num = #{record.flowNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=BIGINT},
+      </if>
+      <if test="record.payAmount != null">
+        pay_amount = #{record.payAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payMethod != null">
+        pay_method = #{record.payMethod,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyCounts != null">
+        buy_counts = #{record.buyCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.flowSn != null">
+        flow_sn = #{record.flowSn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cms_order_flow
+    set id = #{record.id,jdbcType=BIGINT},
+      flow_num = #{record.flowNum,jdbcType=VARCHAR},
+      course_id = #{record.courseId,jdbcType=BIGINT},
+      pay_amount = #{record.payAmount,jdbcType=VARCHAR},
+      pay_method = #{record.payMethod,jdbcType=INTEGER},
+      buy_counts = #{record.buyCounts,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      flow_sn = #{record.flowSn,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myproject.admin.model.CmsOrderFlow">
+    update cms_order_flow
+    <set>
+      <if test="flowNum != null">
+        flow_num = #{flowNum,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="payAmount != null">
+        pay_amount = #{payAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="payMethod != null">
+        pay_method = #{payMethod,jdbcType=INTEGER},
+      </if>
+      <if test="buyCounts != null">
+        buy_counts = #{buyCounts,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flowSn != null">
+        flow_sn = #{flowSn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myproject.admin.model.CmsOrderFlow">
+    update cms_order_flow
+    set flow_num = #{flowNum,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=BIGINT},
+      pay_amount = #{payAmount,jdbcType=VARCHAR},
+      pay_method = #{payMethod,jdbcType=INTEGER},
+      buy_counts = #{buyCounts,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      flow_sn = #{flowSn,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

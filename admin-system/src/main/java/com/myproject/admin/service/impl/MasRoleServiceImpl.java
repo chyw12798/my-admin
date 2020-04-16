@@ -149,6 +149,11 @@ public class MasRoleServiceImpl implements MasRoleService {
         return allPermissionNode;
     }
 
+    @Override
+    public List<MasRole> listAll() {
+        return roleMapper.selectByExample(new MasRoleExample());
+    }
+
     private int updateRoleAdminPermission(Long roleId,List<Long> deletePermissions) {
 
         // 找出角色所有的用户id

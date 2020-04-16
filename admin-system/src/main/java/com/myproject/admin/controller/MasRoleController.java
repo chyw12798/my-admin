@@ -32,6 +32,14 @@ public class MasRoleController {
         return CommonResult.success(CommonPage.restPage(roleList));
     }
 
+    @ApiOperation(value = "后台角色列表查询(不分页)")
+    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult list(@RequestHeader(name = "Authorization")String myHeader) {
+        List<MasRole> roleList = roleService.listAll();
+        return CommonResult.success(roleList);
+    }
+
     @ApiOperation(value = "添加后台角色")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody

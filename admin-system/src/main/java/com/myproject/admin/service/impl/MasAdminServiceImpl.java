@@ -12,7 +12,9 @@ import com.myproject.admin.model.*;
 import com.myproject.admin.securityUtils.JwtTokenUtil;
 import com.myproject.admin.service.MasAdminService;
 import com.myproject.admin.service.MasPermissionService;
+import com.myproject.admin.service.MasUserService;
 import com.myproject.admin.service.RedisService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -61,6 +63,8 @@ public class MasAdminServiceImpl implements MasAdminService {
     private MasRoleDao roleDao;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private MasUserService userService;
 
     @Value("${redis.key.prefix.verificationCode}")
     private String VERIFICATION_CODE_PRFIX;
@@ -84,7 +88,7 @@ public class MasAdminServiceImpl implements MasAdminService {
 
         List<MasPermission> permissions = adminDao.getAdminPermissionList(nowAdmin.getId());
         if (CollectionUtils.isEmpty(permissions)) {
-            throw new RuntimeException("您暂无任何权限!");
+            return null;
         }
         return new AdminDetails(nowAdmin,adminRole,permissions);
     }
@@ -96,6 +100,9 @@ public class MasAdminServiceImpl implements MasAdminService {
         // 首先要拿到用户的userDetails(这里是他的子类 adminDetails)
         UserDetails adminDetails = loadDetailByName(adminParam.getUserName());
 
+        if (adminDetails == null) {
+            return "权限不足!";
+        }
         // 这个时候adminDetails=MasAdmin + List<MasPermission> + role;
         // 与传来的密码比对
         if (!passwordEncoder.matches(adminParam.getPassword(),adminDetails.getPassword())) {
@@ -124,7 +131,7 @@ public class MasAdminServiceImpl implements MasAdminService {
 //            return CommonResult.failed("该账号已被注册!");
             return CommonResult.failed("手机号已被使用！");
         }
-        String encodPasswrd = passwordEncoder.encode(masAdmin.getPassword());
+        String encodPasswrd = passwordEncoder.encode("123456");
         masAdmin.setPassword(encodPasswrd);
         masAdmin.setRegisterDate(new Date());
         masAdmin.setStatus(1);
@@ -136,14 +143,11 @@ public class MasAdminServiceImpl implements MasAdminService {
     }
 
     @Override
-    public List<MasAdmin> list(String userName, Integer pageNum,Integer pageSize) {
+    public List<MasAdminInfo> list(String nickName,String phone,String role,String startTime,String endTime,Integer pageNum,Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        if (StringUtils.isEmpty(userName)){
-            return adminMapper.selectByExample(new MasAdminExample());
-        }
-        MasAdminExample example = new MasAdminExample();
-        example.createCriteria().andUserNameLike("%"+userName+"%");
-        return adminMapper.selectByExample(example);
+
+        List<MasAdminInfo> list = adminDao.getAdminList(nickName,phone,role,startTime,endTime);
+        return list;
     }
 
     @Override
@@ -288,15 +292,70 @@ public class MasAdminServiceImpl implements MasAdminService {
     }
 
     @Override
-    public Map<String,Object> info(Principal principal) {
+    public Map<String,Object> info() {
 
-        String userName = principal.getName();
-        AdminDetails adminDetails = loadDetailByName(userName);
+
+//        String userName = principal.getName();
+        MasAdmin admin = userService.getConcurrentAdmin();
+        AdminDetails adminDetails = loadDetailByName(admin.getUserName());
         Map<String,Object> info = new HashMap<>(3);
-        info.put("userName",userName);
+        info.put("userName",admin.getUserName());
         info.put("role",adminDetails.getMasRole());
-        info.put("permissions",adminDetails.getMasPermissionList());
+        List<MasPermission> permissionList = adminDao.getAdminPermissionList(admin.getId());
+        List<MasPermissionNode> nodes = permissionList.stream()
+                .filter(permission -> permission.getPid().equals(0L))
+                .map(permission -> permissionService.covert2(permission,permissionList)).collect(Collectors.toList());
+        info.put("permissionMenus",nodes);
         return info;
+    }
+
+    @Override
+    public int updateStatus(Long adminId) {
+        MasAdmin admin = null;
+        if (adminId == null) {
+            return 0;
+        }
+        admin = adminMapper.selectByPrimaryKey(adminId);
+        if (admin != null) {
+            MasAdmin newAdmin = new MasAdmin();
+            newAdmin.setId(adminId);
+            newAdmin.setStatus(admin.getStatus() == 1 ? 0 : 1);
+            return adminMapper.updateByPrimaryKeySelective(newAdmin);
+        }
+        return 0;
+    }
+
+    @Override
+    public MasAdminInfo editInfo(Long adminId) {
+        if (adminId == null){
+            return null;
+        }
+        return adminDao.getAdminInfo(adminId);
+    }
+
+    @Override
+    public int update(MasAdminInfo adminInfo) {
+        if (adminInfo.getId() == null) {
+            return 0;
+        }
+        MasAdmin admin = new MasAdmin();
+        BeanUtils.copyProperties(adminInfo,admin);
+        adminMapper.updateByPrimaryKeySelective(admin);
+
+        if (adminInfo.getRoleId() != null) {
+            MasAdminRoleRelation adminRoleRelation = new MasAdminRoleRelation();
+//        adminRoleRelation.setAdminId(admin.getId());
+            adminRoleRelation.setRoleId(adminInfo.getRoleId());
+            MasAdminRoleRelationExample example = new MasAdminRoleRelationExample();
+            example.createCriteria().andAdminIdEqualTo(admin.getId());
+            List<MasAdminRoleRelation> adminRoleRelationList = adminRoleRelationMapper.selectByExample(example);
+            if (CollectionUtils.isEmpty(adminRoleRelationList)) {
+                adminRoleRelation.setAdminId(adminInfo.getId());
+                return adminRoleRelationMapper.insert(adminRoleRelation);
+            }
+            return adminRoleRelationMapper.updateByExampleSelective(adminRoleRelation, example);
+        }
+        return 1;
     }
 
 

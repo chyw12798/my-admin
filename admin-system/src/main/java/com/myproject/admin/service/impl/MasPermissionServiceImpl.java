@@ -8,6 +8,7 @@ import com.myproject.admin.service.MasPermissionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +64,10 @@ public class MasPermissionServiceImpl implements MasPermissionService {
         List<MasPermission> parentPermissionList = permissionList.stream().filter(permission -> permission.getPid().equals(0)).collect(Collectors.toList());
         // 要返回的List<MasPermissionNode>
         List<MasPermissionNode> permissionNodeList = new ArrayList<>(parentPermissionList.size());
-        for (MasPermission parentPermission:parentPermissionList) {
+        for (MasPermission parentPermission : parentPermissionList) {
             // 父权限对应的MasPermissionNode
             MasPermissionNode parentpermissionNode = new MasPermissionNode();
-            BeanUtils.copyProperties(parentPermission,parentpermissionNode);
+            BeanUtils.copyProperties(parentPermission, parentpermissionNode);
             // 递归后的结构可以知道参数需要父权限和所有权限列表,最后构造成树Node结构
             List<MasPermissionNode> childPermissionNodeList = convert(parentPermission, permissionList);
             parentpermissionNode.setChildren(childPermissionNodeList);
@@ -80,18 +81,18 @@ public class MasPermissionServiceImpl implements MasPermissionService {
     public List<MasPermissionNode> convert(MasPermission parentPermission, List<MasPermission> permissionList) {
         // 某一个父权限对应的node
         MasPermissionNode parentPermissionNode = new MasPermissionNode();
-        BeanUtils.copyProperties(parentPermission,parentPermissionNode);
+        BeanUtils.copyProperties(parentPermission, parentPermissionNode);
         // 要返回的子权限nodelist
         List<MasPermissionNode> childPermissionNodeList = new ArrayList<>();
-        for (MasPermission permission:permissionList) {
+        for (MasPermission permission : permissionList) {
             // 看所有的权限的pid是否等于此时进来的parentPermission的id
             if (parentPermission.getPid().equals(parentPermission.getId())) {
 
                 // 现在的权限等于就是父权限其中的一个子节点了
                 MasPermissionNode nowPermissionNode = new MasPermissionNode();
-                BeanUtils.copyProperties(parentPermission,nowPermissionNode);
+                BeanUtils.copyProperties(parentPermission, nowPermissionNode);
                 // 添加之前将当前子节点的子节点给设置好,但是这里，子节点是List，所以递归要改一下，要返回List
-                nowPermissionNode.setChildren(convert(permission,permissionList));
+                nowPermissionNode.setChildren(convert(permission, permissionList));
                 // 要添加到list里去，再把子权限list放到父permissionNode里去
                 childPermissionNodeList.add(nowPermissionNode);
                 // 但是这个节点应该也会有字节点，所以在add之前，将子节点也设置好
@@ -107,4 +108,16 @@ public class MasPermissionServiceImpl implements MasPermissionService {
      * @Param [parentPermission, permissionList]
      * @return java.util.List<com.myproject.admin.dto.MasPermissionNode>
      **/
+    public MasPermissionNode covert2(MasPermission permission,List<MasPermission> permissionList){
+        MasPermissionNode node = new MasPermissionNode();
+        BeanUtils.copyProperties(permission,node);
+        List<MasPermissionNode> children = permissionList.stream()
+                .filter(subPermission -> subPermission.getPid().equals(permission.getId()))
+                .map(subPermission -> covert2(subPermission,permissionList)).collect(Collectors.toList());
+        if (!CollectionUtils.isEmpty(children)){
+            node.setChildren(children);
+        }
+        return node;
+    }
+
 }
